@@ -35,3 +35,9 @@ This version fixes:
 - Weekly Progress horizontal scroll issue
 - Sidebar links now go to real connected pages
 - Goals, Notes, and Supplements pages have working forms
+
+
+## V4 HARD FIX
+- Recent Activity is forced to the bottom of the page.
+- Bottom dashboard panels use vertical flex layout, not side-by-side grid.
+- No horizontal overflow or hidden right panel.
