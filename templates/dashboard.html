@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warrior Health Dashboard</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="leaf-mark">◉</div>
+        <div class="brand-title">DISCIPLINE</div>
+        <div class="brand-sub">BUILDS DESTINY</div>
+      </div>
+
+      <nav class="nav">
+        <a class="active" href="#">⌂ <span>Dashboard</span></a>
+        <a href="#">▣ <span>Calendar</span></a>
+        <a href="#">▥ <span>Analytics</span></a>
+        <a href="#">↗ <span>Progress</span></a>
+        <a href="#">◎ <span>Goals</span></a>
+        <a href="#">♜ <span>Challenges</span></a>
+        <a href="#">☷ <span>Notes</span></a>
+        <a href="#">◈ <span>Supplements</span></a>
+        <a href="#">⚙ <span>Settings</span></a>
+      </nav>
+
+      <div class="profile-card">
+        <div class="avatar" style="background-image:url('{{ url_for('static', filename='assets/' + images.sleep) }}')"></div>
+        <div>
+          <strong>{{ user.username|upper }}</strong>
+          <small>Keep pushing.</small>
+        </div>
+        <a href="{{ url_for('logout') }}" title="Logout">⌄</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero" style="background-image:linear-gradient(90deg, rgba(8,10,14,.96), rgba(8,10,14,.50), rgba(8,10,14,.88)), url('{{ url_for('static', filename='assets/' + images.hero) }}')">
+        <div>
+          <p>WELCOME BACK,</p>
+          <h1>WARRIOR.</h1>
+          <span class="fire">🔥 Discipline today, Freedom tomorrow.</span>
+        </div>
+        <blockquote>
+          <b>“</b> {{ quote }}
+          <cite>— Elevation Mindset</cite>
+        </blockquote>
+      </section>
+
+      <section class="cards-grid">
+        {% set cards = [
+          ('food','Food Intake','Fuel your body.','food','green'),
+          ('water','Water Intake','Stay hydrated.','water_oz','blue'),
+          ('workouts','Workouts','Build your strength.','workouts','red'),
+          ('power','Power Drills','Explode with power.','power_drills','orange'),
+          ('saq','Speed, Agility & Quickness','Move with precision.','saq_minutes','yellow'),
+          ('sleep','Sleep Schedule','Rest. Recover. Grow.','sleep_hours','purple'),
+          ('body','Body Metrics','Track your progress.','body_weight','gray'),
+          ('recovery','Recovery & Mobility','Heal. Move. Perform.','recovery_minutes','teal'),
+          ('supplements','Supplements / Medication','Stay consistent.','supplements','silver'),
+          ('score','Daily Score','Your daily reflection.','notes','gold')
+        ] %}
+        {% for key,title,subtitle,field,color in cards %}
+        <article class="category-card {{ color }}" style="background-image:linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.88)), url('{{ url_for('static', filename='assets/' + images[key]) }}')">
+          <div class="card-icon">{{ {'food':'♧','water':'♢','workouts':'▥','power':'ϟ','saq':'♨','sleep':'☾','body':'♙','recovery':'♧','supplements':'◈','score':'☆'}[key] }}</div>
+          <div class="card-bottom">
+            <h2>{{ title }}</h2>
+            <p>{{ subtitle }}</p>
+            <button class="log-btn" data-open-log data-field="{{ field }}" data-title="{{ title }}">Log Now →</button>
+          </div>
+        </article>
+        {% endfor %}
+
+        <aside class="time-filter">
+          <h3>▣ TIME FILTER</h3>
+          <button class="active">Today</button>
+          <button>Past 7 Days</button>
+          <button>Past 14 Days</button>
+          <button>Past 30 Days</button>
+          <button>3 Months</button>
+          <button>6 Months</button>
+          <button>1 Year</button>
+          <button>All Time</button>
+        </aside>
+      </section>
+
+      <section class="bottom-grid">
+        <section class="panel overview">
+          <h3>TODAY'S OVERVIEW</h3>
+          {% for label, pct in progress.items() %}
+          <div class="metric-row">
+            <span>{{ label }}</span>
+            <div class="bar"><i style="width: {{ pct }}%"></i></div>
+            <b>{{ pct }}%</b>
+          </div>
+          {% endfor %}
+        </section>
+
+        <section class="panel score-panel">
+          <h3>HEALTH SCORE</h3>
+          <div class="score-ring" style="--score: {{ health_score * 3.6 }}deg">
+            <span>{{ health_score }}</span>
+            <small>OUT OF 100</small>
+          </div>
+          <p>Great work today, Warrior.<br>Keep stacking days.</p>
+        </section>
+
+        <section class="panel chart-panel">
+          <h3>WEEKLY PROGRESS</h3>
+          <canvas id="weeklyChart" data-chart='{{ chart_payload|tojson }}'></canvas>
+          <div class="stats">
+            <div><b>{{ chart_payload.workouts|sum }}</b><span>Workouts<br>This Week</span></div>
+            <div><b>{{ (chart_payload.calories|sum / 7)|round|int }}</b><span>Calories Avg.<br>Per Day</span></div>
+            <div><b>{{ (chart_payload.sleep|sum / 7)|round(1) }}</b><span>Sleep Avg.<br>Per Day</span></div>
+          </div>
+        </section>
+
+        <section class="panel recent">
+          <h3>RECENT ACTIVITY</h3>
+          <ul>
+            <li><span class="dot green"></span><b>Food</b><small>{{ log.calories }} calories / {{ log.protein_g }}g protein</small></li>
+            <li><span class="dot red"></span><b>Workouts</b><small>{{ log.workouts }} completed</small></li>
+            <li><span class="dot blue"></span><b>Water</b><small>{{ log.water_oz }} oz logged</small></li>
+            <li><span class="dot purple"></span><b>Sleep</b><small>{{ log.sleep_hours }} hours</small></li>
+            <li><span class="dot orange"></span><b>Power</b><small>{{ log.power_drills }} drills</small></li>
+          </ul>
+          <button class="danger-line" data-open-goals>Adjust Goals →</button>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="logModal" class="modal">
+    <form method="POST" action="{{ url_for('log_data') }}" class="modal-card">
+      <button type="button" class="x" data-close>×</button>
+      <h2 id="logTitle">Log Data</h2>
+      <p>Add progress for today. Your account keeps its own private logs.</p>
+      <div id="dynamicField"></div>
+      <label>Notes
+        <textarea name="notes" placeholder="Optional notes..."></textarea>
+      </label>
+      <button class="primary">Save Log</button>
+    </form>
+  </dialog>
+
+  <dialog id="goalsModal" class="modal">
+    <form method="POST" action="{{ url_for('update_goals') }}" class="modal-card goals-form">
+      <button type="button" class="x" data-close>×</button>
+      <h2>Adjust Goals</h2>
+      <div class="goal-grid">
+        <label>Water oz <input name="water_oz" type="number" value="{{ goals.water_oz }}"></label>
+        <label>Calories <input name="calories" type="number" value="{{ goals.calories }}"></label>
+        <label>Protein g <input name="protein_g" type="number" value="{{ goals.protein_g }}"></label>
+        <label>Workouts <input name="workouts" type="number" value="{{ goals.workouts }}"></label>
+        <label>Power Drills <input name="power_drills" type="number" value="{{ goals.power_drills }}"></label>
+        <label>SAQ Minutes <input name="saq_minutes" type="number" value="{{ goals.saq_minutes }}"></label>
+        <label>Sleep Hours <input name="sleep_hours" type="number" step="0.1" value="{{ goals.sleep_hours }}"></label>
+        <label>Recovery Minutes <input name="recovery_minutes" type="number" value="{{ goals.recovery_minutes }}"></label>
+        <label>Supplements <input name="supplements" type="number" value="{{ goals.supplements }}"></label>
+        <label>Body Weight Goal <input name="body_weight_goal" type="number" step="0.1" value="{{ goals.body_weight_goal }}"></label>
+      </div>
+      <button class="primary">Save Goals</button>
+    </form>
+  </dialog>
+</body>
+</html>
