@@ -127,3 +127,33 @@ if(quoteRotator && quoteText){
     }, 30000);
   }
 }
+
+
+// V7 ensure background grid fills all 9 cells visibly
+(function(){
+  const grid = document.querySelector(".anime-bg-grid");
+  if(!grid) return;
+
+  const existing = Array.from(grid.querySelectorAll(".bg-cell"));
+  if(existing.length >= 9) return;
+
+  const fallbackImages = [
+    "/static/assets/elevator_01.webp",
+    "/static/assets/elevator_02.webp",
+    "/static/assets/elevator_03.webp",
+    "/static/assets/elevator_04.jpeg",
+    "/static/assets/elevator_05.webp",
+    "/static/assets/elevator_06.webp",
+    "/static/assets/elevator_07.webp",
+    "/static/assets/elevator_08.webp",
+    "/static/assets/elevator_09.webp"
+  ];
+
+  grid.innerHTML = "";
+  fallbackImages.forEach(src => {
+    const cell = document.createElement("div");
+    cell.className = "bg-cell";
+    cell.style.backgroundImage = `url('${src}')`;
+    grid.appendChild(cell);
+  });
+})();

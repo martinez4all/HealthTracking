@@ -49,3 +49,10 @@ This version fixes:
 - Time filter links now reload dashboard with selected range.
 - Daily Score uses clearer Luffy image.
 - New uploaded images form a subtle grid background.
+
+
+## V7 Final Header / Background
+- Removed top-left logo circle and brand quote.
+- Header now says: "The cold water does not get warmer if you jump late."
+- Header is huge, centered, white with subtle red glow.
+- Uploaded image grid background is made more visible.

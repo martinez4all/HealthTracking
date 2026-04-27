@@ -13,11 +13,7 @@
   <div class="anime-bg-grid" aria-hidden="true"></div>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand">
-        <div class="leaf-mark">◉</div>
-        <div class="brand-title threat-title">THE DEVIL IS NOT ATTACKING YOU BECAUSE YOU ARE WEAK</div>
-        <div class="brand-sub threat-sub">THE DEVIL IS ATTACKING YOU BECAUSE YOU ARE A THREAT. THIEVES DON'T BREAK INTO EMPTY HOUSES.</div>
-      </div>
+      <div class="brand clean-brand"></div>
 
       <nav class="nav">
         <a class="active nav-red" href="#">⌂ <span>Dashboard</span></a>
@@ -42,11 +38,9 @@
     </aside>
 
     <main class="main">
-      <section class="hero" style="background-image:linear-gradient(90deg, rgba(8,10,14,.96), rgba(8,10,14,.50), rgba(8,10,14,.88)), url('{{ url_for('static', filename='assets/' + images.hero) }}')">
-        <div>
-          <p>WELCOME BACK,</p>
-          <h1>WARRIOR.</h1>
-          <span class="fire">🔥 Discipline today, Freedom tomorrow.</span>
+      <section class="hero final-hero" style="background-image:linear-gradient(90deg, rgba(8,10,14,.96), rgba(8,10,14,.50), rgba(8,10,14,.88)), url('{{ url_for('static', filename='assets/' + images.hero) }}')">
+        <div class="hero-center-title">
+          <h1>The cold water does not get warmer if you jump late.</h1>
         </div>
         <blockquote id="quoteRotator" data-quotes='{{ quotes|tojson }}'>
           <b>“</b> <span id="quoteText">{{ quote }}</span>

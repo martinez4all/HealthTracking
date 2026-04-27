@@ -505,3 +505,107 @@ body{
 }
 
 #quoteText{transition:opacity .25s ease;}
+
+
+/* V7 FINAL: clean header, no top-left logo/quote, stronger visible image grid background */
+.clean-brand{
+  min-height:18px !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+.sidebar .leaf-mark,
+.sidebar .threat-title,
+.sidebar .threat-sub{
+  display:none !important;
+}
+
+/* Make uploaded image grid actually visible behind dashboard */
+.anime-bg-grid{
+  opacity:.36 !important;
+  grid-template-columns:repeat(3, 1fr) !important;
+  grid-template-rows:repeat(3, 1fr) !important;
+  gap:3px !important;
+  background:#020305 !important;
+}
+.bg-cell{
+  background-size:cover !important;
+  background-position:center !important;
+  min-height:33.333vh !important;
+  border:1px solid rgba(255,255,255,.06) !important;
+}
+.anime-bg-grid::after{
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,59,48,.13), transparent 42%),
+    linear-gradient(90deg, rgba(2,3,5,.72), rgba(2,3,5,.48), rgba(2,3,5,.72)),
+    linear-gradient(180deg, rgba(2,3,5,.38), rgba(2,3,5,.82)) !important;
+}
+
+/* Huge front-and-center header quote */
+.final-hero{
+  min-height:260px !important;
+  justify-content:center !important;
+  align-items:center !important;
+  text-align:center !important;
+  padding:38px 38px !important;
+  position:relative !important;
+}
+.final-hero .hero-center-title{
+  max-width:1100px;
+  margin:0 auto;
+  animation:headerFadeIn .85s ease both;
+}
+.final-hero .hero-center-title h1{
+  margin:0 !important;
+  font-size:clamp(42px, 6vw, 92px) !important;
+  line-height:.96 !important;
+  letter-spacing:-.045em !important;
+  font-weight:1000 !important;
+  color:#fff !important;
+  text-transform:uppercase;
+  text-shadow:
+    0 0 14px rgba(255,255,255,.22),
+    0 0 28px rgba(255,59,48,.42),
+    0 0 70px rgba(255,59,48,.22) !important;
+}
+
+/* Keep the rotating quote, but tuck it in top-right cleaner */
+.final-hero blockquote{
+  position:absolute !important;
+  right:26px !important;
+  top:24px !important;
+  max-width:360px !important;
+  font-size:15px !important;
+  line-height:1.35 !important;
+  text-align:left !important;
+  padding:11px 14px 11px 18px !important;
+  background:rgba(0,0,0,.48) !important;
+  backdrop-filter:blur(8px);
+  border-left:4px solid var(--red) !important;
+  box-shadow:0 0 22px rgba(255,59,48,.16) !important;
+}
+.final-hero blockquote b{
+  font-size:36px !important;
+}
+.final-hero blockquote cite{
+  font-size:12px !important;
+  margin-top:6px !important;
+}
+
+@keyframes headerFadeIn{
+  from{opacity:0; transform:translateY(14px) scale(.985);}
+  to{opacity:1; transform:translateY(0) scale(1);}
+}
+
+@media(max-width:900px){
+  .final-hero{
+    min-height:310px !important;
+    padding-top:110px !important;
+  }
+  .final-hero blockquote{
+    left:18px !important;
+    right:18px !important;
+    top:18px !important;
+    max-width:none !important;
+  }
+}
