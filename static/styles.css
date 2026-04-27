@@ -168,3 +168,209 @@ button,input,textarea{font:inherit}
     height:240px !important;
   }
 }
+
+
+/* V5 visual upgrade: 3x3 category grid, bigger cards, stronger sidebar, hover glow */
+.brand{
+  letter-spacing:.08em;
+  text-align:left;
+  padding:0 6px;
+}
+.leaf-mark{
+  text-align:center;
+}
+.threat-title{
+  font-size:13px;
+  line-height:1.35;
+  font-weight:900;
+  letter-spacing:.12em;
+  color:#fff;
+}
+.threat-sub{
+  font-size:10px;
+  line-height:1.45;
+  font-weight:800;
+  letter-spacing:.11em;
+  color:#b8beca;
+  margin-top:10px;
+}
+.nav a{
+  font-size:18px !important;
+  font-weight:900 !important;
+  letter-spacing:.02em;
+  padding:15px 16px !important;
+}
+.nav a span{
+  font-weight:900;
+}
+
+.hero h1{
+  font-size:54px;
+  letter-spacing:.02em;
+}
+.hero blockquote{
+  font-size:17px;
+  line-height:1.45;
+}
+
+/* 9 categories = 3 rows x 3 columns. Time filter drops under them. */
+.cards-grid{
+  grid-template-columns:repeat(3, minmax(260px, 1fr)) !important;
+  gap:22px !important;
+  align-items:stretch;
+}
+.category-card{
+  height:330px !important;
+  border-width:2px;
+  transform:translateZ(0);
+}
+.category-card:hover{
+  transform:translateY(-7px) scale(1.015) !important;
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 0 24px color-mix(in srgb, var(--accent) 85%, transparent),
+    0 28px 70px rgba(0,0,0,.62),
+    inset 0 -105px 85px rgba(0,0,0,.9) !important;
+}
+.card-icon{
+  font-size:44px !important;
+}
+.card-bottom h2{
+  font-size:26px !important;
+  font-weight:1000;
+  letter-spacing:.03em;
+}
+.card-bottom p{
+  font-size:17px;
+  font-weight:650;
+}
+.log-btn{
+  font-size:17px;
+  font-weight:900;
+  padding:12px !important;
+}
+.time-filter{
+  grid-column:1 / -1 !important;
+  display:grid;
+  grid-template-columns:180px repeat(8, minmax(95px, 1fr));
+  align-items:center;
+  gap:8px;
+}
+.time-filter h3{
+  margin:0 !important;
+}
+.time-filter button{
+  text-align:center !important;
+  padding:10px !important;
+}
+
+/* Daily Score is below the 3x3 grid, larger and full width */
+.daily-score-wide{
+  margin-top:22px;
+}
+.score-wide-card{
+  height:245px !important;
+  width:100%;
+  background-position:center 34%;
+}
+.score-wide-card .card-bottom{
+  max-width:520px;
+  text-align:left;
+  left:34px;
+  bottom:26px;
+}
+.score-wide-card .card-bottom h2{
+  font-size:34px !important;
+}
+
+/* Category full image popup */
+.category-modal-card{
+  width:min(980px,94vw);
+  height:min(720px,86vh);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  background:#05070a;
+  box-shadow:0 40px 120px rgba(0,0,0,.78);
+}
+.category-modal-bg{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter:contrast(1.05) brightness(.75);
+  transform:scale(1.02);
+}
+.category-modal-bg:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg, rgba(0,0,0,.86), rgba(0,0,0,.38), rgba(0,0,0,.78));
+}
+.category-modal-content{
+  position:absolute;
+  left:36px;
+  bottom:36px;
+  width:min(470px,80%);
+  z-index:2;
+}
+.modal-kicker{
+  color:var(--red);
+  font-size:13px;
+  font-weight:1000;
+  letter-spacing:.22em;
+}
+.category-modal-content h2{
+  font-size:54px;
+  line-height:.94;
+  margin:8px 0 12px;
+  text-transform:uppercase;
+}
+.category-modal-content p{
+  font-size:20px;
+  color:#d8dce6;
+}
+.category-modal .x{
+  z-index:4;
+  background:rgba(0,0,0,.45);
+  border-radius:999px;
+  width:44px;
+  height:44px;
+  line-height:38px;
+}
+
+/* Keep bottom fully vertical */
+.bottom-grid{
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+@media(max-width:1200px){
+  .cards-grid{
+    grid-template-columns:repeat(2, minmax(240px, 1fr)) !important;
+  }
+  .time-filter{
+    grid-template-columns:repeat(3, 1fr);
+  }
+  .time-filter h3{
+    grid-column:1/-1;
+  }
+}
+@media(max-width:760px){
+  .cards-grid{
+    grid-template-columns:1fr !important;
+  }
+  .category-card{
+    height:300px !important;
+  }
+  .time-filter{
+    grid-template-columns:1fr 1fr;
+  }
+  .category-modal-content h2{
+    font-size:38px;
+  }
+  .sidebar{
+    padding-top:18px;
+  }
+}

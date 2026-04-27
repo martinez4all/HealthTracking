@@ -63,3 +63,34 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+// V5 category image modal
+const categoryModal = document.getElementById("categoryModal");
+const categoryModalBg = document.getElementById("categoryModalBg");
+const categoryModalTitle = document.getElementById("categoryModalTitle");
+const categoryModalSubtitle = document.getElementById("categoryModalSubtitle");
+const categoryLogButton = document.getElementById("categoryLogButton");
+let pendingCategory = null;
+
+document.querySelectorAll("[data-open-category]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    pendingCategory = {
+      field: btn.dataset.field,
+      title: btn.dataset.title,
+      subtitle: btn.dataset.subtitle
+    };
+    categoryModalBg.style.backgroundImage = `url('${btn.dataset.image}')`;
+    categoryModalTitle.textContent = btn.dataset.title;
+    categoryModalSubtitle.textContent = btn.dataset.subtitle;
+    categoryModal.showModal();
+  });
+});
+
+if(categoryLogButton){
+  categoryLogButton.addEventListener("click", () => {
+    if(!pendingCategory) return;
+    categoryModal.close();
+    openLog(pendingCategory.field, pendingCategory.title);
+  });
+}

@@ -33,11 +33,22 @@ CATEGORY_IMAGES = {
 }
 
 QUOTES = [
-    "A tree with no leaves won’t protect you from the rain, but the rain will protect you from a tree with no leaves.",
+    "Flectere si nequeo superos, Acheronta movebo.",
+    "Oderint dum metuant.",
+    "Nec sorte, nec fato.",
+    "Aut viam inveniam aut faciam.",
+    "Quo non ascendam?",
+    "Utere, non numera.",
+    "Vincit qui se vincit.",
+    "Non ducor, duco.",
+    "Veritas lux mea.",
+    "Si vis pacem, para bellum.",
     "The cold water does not get warmer if you jump late.",
     "Your ability to grow is directly tied to how much truth you can handle about yourself without trying to escape it.",
     "The only person coming to save you is the version of yourself that’s tired of your current situation.",
     "If you’re worried about the cost of going for it, you should see the price of staying exactly where you are.",
+    "When you reach the peak, you realize the mountain wasn’t the obstacle, you were.",
+    "A tree with no leaves won’t protect you from the rain, but the rain will protect you from a tree with no leaves.",
 ]
 
 def login_required(fn):

@@ -14,8 +14,8 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="leaf-mark">◉</div>
-        <div class="brand-title">DISCIPLINE</div>
-        <div class="brand-sub">BUILDS DESTINY</div>
+        <div class="brand-title threat-title">THE DEVIL IS NOT ATTACKING YOU BECAUSE YOU ARE WEAK</div>
+        <div class="brand-sub threat-sub">THE DEVIL IS ATTACKING YOU BECAUSE YOU ARE A THREAT. THIEVES DON'T BREAK INTO EMPTY HOUSES.</div>
       </div>
 
       <nav class="nav">
@@ -63,8 +63,7 @@
           ('sleep','Sleep Schedule','Rest. Recover. Grow.','sleep_hours','purple'),
           ('body','Body Metrics','Track your progress.','body_weight','gray'),
           ('recovery','Recovery & Mobility','Heal. Move. Perform.','recovery_minutes','teal'),
-          ('supplements','Supplements / Medication','Stay consistent.','supplements','silver'),
-          ('score','Daily Score','Your daily reflection.','notes','gold')
+          ('supplements','Supplements / Medication','Stay consistent.','supplements','silver')
         ] %}
         {% for key,title,subtitle,field,color in cards %}
         <article class="category-card {{ color }}" style="background-image:linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.88)), url('{{ url_for('static', filename='assets/' + images[key]) }}')">
@@ -72,7 +71,12 @@
           <div class="card-bottom">
             <h2>{{ title }}</h2>
             <p>{{ subtitle }}</p>
-            <button class="log-btn" data-open-log data-field="{{ field }}" data-title="{{ title }}">Log Now →</button>
+            <button class="log-btn" data-open-category
+              data-field="{{ field }}"
+              data-title="{{ title }}"
+              data-subtitle="{{ subtitle }}"
+              data-image="{{ url_for('static', filename='assets/' + images[key]) }}"
+              data-color="{{ color }}">Open →</button>
           </div>
         </article>
         {% endfor %}
@@ -88,6 +92,22 @@
           <button>1 Year</button>
           <button>All Time</button>
         </aside>
+      </section>
+
+      <section class="daily-score-wide">
+        <article class="category-card gold score-wide-card" style="background-image:linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,.86)), url('{{ url_for('static', filename='assets/' + images.score) }}')">
+          <div class="card-icon">☆</div>
+          <div class="card-bottom">
+            <h2>Daily Score</h2>
+            <p>Your daily reflection.</p>
+            <button class="log-btn" data-open-category
+              data-field="notes"
+              data-title="Daily Score"
+              data-subtitle="Your daily reflection."
+              data-image="{{ url_for('static', filename='assets/' + images.score) }}"
+              data-color="gold">Open →</button>
+          </div>
+        </article>
       </section>
 
       <section class="bottom-grid">
@@ -136,7 +156,21 @@
     </main>
   </div>
 
-  <dialog id="logModal" class="modal">
+  
+  <dialog id="categoryModal" class="modal category-modal">
+    <div class="category-modal-card">
+      <button type="button" class="x" data-close>×</button>
+      <div id="categoryModalBg" class="category-modal-bg"></div>
+      <div class="category-modal-content">
+        <p class="modal-kicker">WARRIOR CATEGORY</p>
+        <h2 id="categoryModalTitle">Category</h2>
+        <p id="categoryModalSubtitle">Track progress.</p>
+        <button class="primary" id="categoryLogButton">Log This Category</button>
+      </div>
+    </div>
+  </dialog>
+
+<dialog id="logModal" class="modal">
     <form method="POST" action="{{ url_for('log_data') }}" class="modal-card">
       <button type="button" class="x" data-close>×</button>
       <h2 id="logTitle">Log Data</h2>
