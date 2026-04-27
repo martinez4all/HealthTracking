@@ -56,3 +56,10 @@ This version fixes:
 - Header now says: "The cold water does not get warmer if you jump late."
 - Header is huge, centered, white with subtle red glow.
 - Uploaded image grid background is made more visible.
+
+
+## V10 Modal Readability Fix
+- Category popup title is now readable.
+- Popup keeps category color scheme.
+- Added strong color glow and highlighted title container.
+- Brightened enlarged category image display.
