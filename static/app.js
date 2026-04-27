@@ -94,3 +94,36 @@ if(categoryLogButton){
     openLog(pendingCategory.field, pendingCategory.title);
   });
 }
+
+
+// V6 background grid and quote rotator
+const bgImages = ["/static/assets/elevator_01.webp", "/static/assets/elevator_02.webp", "/static/assets/elevator_03.webp", "/static/assets/elevator_04.jpeg", "/static/assets/elevator_05.webp", "/static/assets/elevator_06.webp", "/static/assets/elevator_07.webp", "/static/assets/elevator_08.webp", "/static/assets/elevator_09.webp"];
+const bgGrid = document.querySelector(".anime-bg-grid");
+if(bgGrid && bgImages.length){
+  bgImages.forEach(src => {
+    const cell = document.createElement("div");
+    cell.className = "bg-cell";
+    cell.style.backgroundImage = `url('${src}')`;
+    bgGrid.appendChild(cell);
+  });
+}
+
+const quoteRotator = document.getElementById("quoteRotator");
+const quoteText = document.getElementById("quoteText");
+if(quoteRotator && quoteText){
+  let quotes = [];
+  try {
+    quotes = JSON.parse(quoteRotator.dataset.quotes || "[]");
+  } catch(e) {}
+  let idx = 0;
+  if(quotes.length > 1){
+    setInterval(() => {
+      idx = (idx + 1) % quotes.length;
+      quoteText.style.opacity = "0";
+      setTimeout(() => {
+        quoteText.textContent = quotes[idx];
+        quoteText.style.opacity = "1";
+      }, 250);
+    }, 30000);
+  }
+}

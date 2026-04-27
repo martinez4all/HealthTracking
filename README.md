@@ -41,3 +41,11 @@ This version fixes:
 - Recent Activity is forced to the bottom of the page.
 - Bottom dashboard panels use vertical flex layout, not side-by-side grid.
 - No horizontal overflow or hidden right panel.
+
+
+## V6 Polish
+- Left tabs are color-coded and stronger.
+- Top quote rotates every 30 seconds.
+- Time filter links now reload dashboard with selected range.
+- Daily Score uses clearer Luffy image.
+- New uploaded images form a subtle grid background.

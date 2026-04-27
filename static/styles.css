@@ -374,3 +374,134 @@ button,input,textarea{font:inherit}
     padding-top:18px;
   }
 }
+
+
+/* V6 polish: global anime grid background, colored sidebar tabs, bigger rotating quote, working filter links */
+body{
+  background:#030507 !important;
+  position:relative;
+}
+.anime-bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  grid-template-rows:repeat(3, 1fr);
+  opacity:.18;
+  filter:saturate(1.15) contrast(1.08);
+  pointer-events:none;
+}
+.anime-bg-grid::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,59,48,.12), transparent 35%),
+    linear-gradient(90deg, rgba(2,3,5,.95), rgba(2,3,5,.72), rgba(2,3,5,.94)),
+    linear-gradient(180deg, rgba(2,3,5,.62), rgba(2,3,5,.96));
+}
+.bg-cell{
+  background-size:cover;
+  background-position:center;
+  border:1px solid rgba(255,255,255,.035);
+}
+.app-shell{
+  position:relative;
+  z-index:1;
+}
+.sidebar{
+  background:linear-gradient(180deg,rgba(7,12,18,.94),rgba(2,4,7,.98)) !important;
+  backdrop-filter:blur(10px);
+}
+.nav a{
+  border-left:4px solid var(--nav-color, transparent) !important;
+  background:rgba(255,255,255,.018);
+}
+.nav a:hover,
+.nav a.active{
+  color:#fff !important;
+  border-color:var(--nav-color, var(--red)) !important;
+  background:linear-gradient(90deg, color-mix(in srgb, var(--nav-color) 26%, transparent), rgba(255,255,255,.025)) !important;
+  box-shadow:0 0 20px color-mix(in srgb, var(--nav-color) 35%, transparent) !important;
+}
+.nav-red{--nav-color:var(--red)}
+.nav-blue{--nav-color:var(--blue)}
+.nav-purple{--nav-color:var(--purple)}
+.nav-green{--nav-color:var(--green)}
+.nav-gold{--nav-color:var(--gold)}
+.nav-orange{--nav-color:var(--orange)}
+.nav-teal{--nav-color:var(--teal)}
+.nav-silver{--nav-color:var(--silver)}
+
+.threat-title{
+  font-size:15px !important;
+  line-height:1.28 !important;
+  color:#fff !important;
+  text-shadow:0 0 16px rgba(255,255,255,.18);
+}
+.threat-sub{
+  font-size:12px !important;
+  line-height:1.35 !important;
+  color:#ff4a40 !important;
+  text-shadow:0 0 20px rgba(255,59,48,.42);
+}
+.hero blockquote{
+  max-width:470px !important;
+  font-size:22px !important;
+  font-weight:850 !important;
+  line-height:1.35 !important;
+  border-left:5px solid var(--red) !important;
+  color:#fff !important;
+  background:linear-gradient(90deg, rgba(255,59,48,.15), rgba(0,0,0,.52)) !important;
+  box-shadow:0 0 32px rgba(255,59,48,.18);
+}
+.hero blockquote b{
+  color:#ff3b30 !important;
+  text-shadow:0 0 20px rgba(255,59,48,.8);
+}
+.hero blockquote cite{
+  font-size:15px;
+  font-weight:900;
+  color:#ff6b62 !important;
+}
+
+/* Time filter links now work */
+.time-filter a{
+  display:block;
+  width:100%;
+  text-align:center;
+  color:#d6dae3;
+  text-decoration:none;
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:7px;
+  padding:10px;
+  font-weight:800;
+}
+.time-filter a.active,
+.time-filter a:hover{
+  background:rgba(255,59,48,.26);
+  border-color:rgba(255,59,48,.68);
+  color:#fff;
+}
+
+/* Daily Score Luffy image clearer */
+.score-wide-card{
+  background-size:cover !important;
+  background-position:center 42% !important;
+  min-height:310px !important;
+  box-shadow:0 0 0 2px rgba(255,196,45,.65), 0 22px 70px rgba(255,196,45,.18), inset 0 -90px 80px rgba(0,0,0,.62) !important;
+}
+.score-wide-card::before{
+  opacity:.18 !important;
+}
+.score-wide-card .card-bottom{
+  background:rgba(0,0,0,.34);
+  border-left:4px solid var(--gold);
+  padding:16px 20px;
+  border-radius:12px;
+  backdrop-filter:blur(5px);
+}
+
+#quoteText{transition:opacity .25s ease;}

@@ -10,6 +10,7 @@
   <script defer src="{{ url_for('static', filename='app.js') }}"></script>
 </head>
 <body>
+  <div class="anime-bg-grid" aria-hidden="true"></div>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
@@ -19,15 +20,15 @@
       </div>
 
       <nav class="nav">
-        <a class="active" href="#">⌂ <span>Dashboard</span></a>
-        <a href="{{ url_for('simple_page', page_name='calendar') }}">▣ <span>Calendar</span></a>
-        <a href="{{ url_for('simple_page', page_name='analytics') }}">▥ <span>Analytics</span></a>
-        <a href="{{ url_for('simple_page', page_name='progress') }}">↗ <span>Progress</span></a>
-        <a href="{{ url_for('simple_page', page_name='goals') }}">◎ <span>Goals</span></a>
-        <a href="{{ url_for('simple_page', page_name='challenges') }}">♜ <span>Challenges</span></a>
-        <a href="{{ url_for('simple_page', page_name='notes') }}">☷ <span>Notes</span></a>
-        <a href="{{ url_for('simple_page', page_name='supplements') }}">◈ <span>Supplements</span></a>
-        <a href="{{ url_for('simple_page', page_name='settings') }}">⚙ <span>Settings</span></a>
+        <a class="active nav-red" href="#">⌂ <span>Dashboard</span></a>
+        <a class="nav-blue" href="{{ url_for('simple_page', page_name='calendar') }}">▣ <span>Calendar</span></a>
+        <a class="nav-purple" href="{{ url_for('simple_page', page_name='analytics') }}">▥ <span>Analytics</span></a>
+        <a class="nav-green" href="{{ url_for('simple_page', page_name='progress') }}">↗ <span>Progress</span></a>
+        <a class="nav-gold" href="{{ url_for('simple_page', page_name='goals') }}">◎ <span>Goals</span></a>
+        <a class="nav-orange" href="{{ url_for('simple_page', page_name='challenges') }}">♜ <span>Challenges</span></a>
+        <a class="nav-teal" href="{{ url_for('simple_page', page_name='notes') }}">☷ <span>Notes</span></a>
+        <a class="nav-silver" href="{{ url_for('simple_page', page_name='supplements') }}">◈ <span>Supplements</span></a>
+        <a class="nav-red" href="{{ url_for('simple_page', page_name='settings') }}">⚙ <span>Settings</span></a>
       </nav>
 
       <div class="profile-card">
@@ -47,8 +48,8 @@
           <h1>WARRIOR.</h1>
           <span class="fire">🔥 Discipline today, Freedom tomorrow.</span>
         </div>
-        <blockquote>
-          <b>“</b> {{ quote }}
+        <blockquote id="quoteRotator" data-quotes='{{ quotes|tojson }}'>
+          <b>“</b> <span id="quoteText">{{ quote }}</span>
           <cite>— Elevation Mindset</cite>
         </blockquote>
       </section>
@@ -83,14 +84,14 @@
 
         <aside class="time-filter">
           <h3>▣ TIME FILTER</h3>
-          <button class="active">Today</button>
-          <button>Past 7 Days</button>
-          <button>Past 14 Days</button>
-          <button>Past 30 Days</button>
-          <button>3 Months</button>
-          <button>6 Months</button>
-          <button>1 Year</button>
-          <button>All Time</button>
+          <a class="{{ 'active' if active_days == 1 else '' }}" href="{{ url_for('dashboard', days=1) }}">Today</a>
+          <a class="{{ 'active' if active_days == 7 else '' }}" href="{{ url_for('dashboard', days=7) }}">Past 7 Days</a>
+          <a class="{{ 'active' if active_days == 14 else '' }}" href="{{ url_for('dashboard', days=14) }}">Past 14 Days</a>
+          <a class="{{ 'active' if active_days == 30 else '' }}" href="{{ url_for('dashboard', days=30) }}">Past 30 Days</a>
+          <a class="{{ 'active' if active_days == 90 else '' }}" href="{{ url_for('dashboard', days=90) }}">3 Months</a>
+          <a class="{{ 'active' if active_days == 180 else '' }}" href="{{ url_for('dashboard', days=180) }}">6 Months</a>
+          <a class="{{ 'active' if active_days == 365 else '' }}" href="{{ url_for('dashboard', days=365) }}">1 Year</a>
+          <a class="{{ 'active' if active_days == 9999 else '' }}" href="{{ url_for('dashboard', days=9999) }}">All Time</a>
         </aside>
       </section>
 
@@ -136,8 +137,8 @@
           <div class="chart-scroll"><div class="chart-inner"><canvas id="weeklyChart" data-chart='{{ chart_payload|tojson }}'></canvas></div></div>
           <div class="stats">
             <div><b>{{ chart_payload.workouts|sum }}</b><span>Workouts<br>This Week</span></div>
-            <div><b>{{ (chart_payload.calories|sum / 7)|round|int }}</b><span>Calories Avg.<br>Per Day</span></div>
-            <div><b>{{ (chart_payload.sleep|sum / 7)|round(1) }}</b><span>Sleep Avg.<br>Per Day</span></div>
+            <div><b>{{ (chart_payload.calories|sum / chart_payload.days)|round|int }}</b><span>Calories Avg.<br>Per Day</span></div>
+            <div><b>{{ (chart_payload.sleep|sum / chart_payload.days)|round(1) }}</b><span>Sleep Avg.<br>Per Day</span></div>
           </div>
         </section>
 

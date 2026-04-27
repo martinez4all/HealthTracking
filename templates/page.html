@@ -7,24 +7,25 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body>
+  <div class="anime-bg-grid" aria-hidden="true"></div>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
         <div class="leaf-mark">◉</div>
-        <div class="brand-title">DISCIPLINE</div>
-        <div class="brand-sub">BUILDS DESTINY</div>
+        <div class="brand-title threat-title">THE DEVIL IS NOT ATTACKING YOU BECAUSE YOU ARE WEAK</div>
+        <div class="brand-sub threat-sub">THE DEVIL IS ATTACKING YOU BECAUSE YOU ARE A THREAT. THIEVES DON'T BREAK INTO EMPTY HOUSES.</div>
       </div>
 
       <nav class="nav">
-        <a href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
-        <a class="{{ 'active' if page_name == 'calendar' else '' }}" href="{{ url_for('simple_page', page_name='calendar') }}">▣ <span>Calendar</span></a>
-        <a class="{{ 'active' if page_name == 'analytics' else '' }}" href="{{ url_for('simple_page', page_name='analytics') }}">▥ <span>Analytics</span></a>
-        <a class="{{ 'active' if page_name == 'progress' else '' }}" href="{{ url_for('simple_page', page_name='progress') }}">↗ <span>Progress</span></a>
-        <a class="{{ 'active' if page_name == 'goals' else '' }}" href="{{ url_for('simple_page', page_name='goals') }}">◎ <span>Goals</span></a>
-        <a class="{{ 'active' if page_name == 'challenges' else '' }}" href="{{ url_for('simple_page', page_name='challenges') }}">♜ <span>Challenges</span></a>
-        <a class="{{ 'active' if page_name == 'notes' else '' }}" href="{{ url_for('simple_page', page_name='notes') }}">☷ <span>Notes</span></a>
-        <a class="{{ 'active' if page_name == 'supplements' else '' }}" href="{{ url_for('simple_page', page_name='supplements') }}">◈ <span>Supplements</span></a>
-        <a class="{{ 'active' if page_name == 'settings' else '' }}" href="{{ url_for('simple_page', page_name='settings') }}">⚙ <span>Settings</span></a>
+        <a class="nav-red" href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
+        <a class="nav-blue {{ 'active' if page_name == 'calendar' else '' }}" href="{{ url_for('simple_page', page_name='calendar') }}">▣ <span>Calendar</span></a>
+        <a class="nav-purple {{ 'active' if page_name == 'analytics' else '' }}" href="{{ url_for('simple_page', page_name='analytics') }}">▥ <span>Analytics</span></a>
+        <a class="nav-green {{ 'active' if page_name == 'progress' else '' }}" href="{{ url_for('simple_page', page_name='progress') }}">↗ <span>Progress</span></a>
+        <a class="nav-gold {{ 'active' if page_name == 'goals' else '' }}" href="{{ url_for('simple_page', page_name='goals') }}">◎ <span>Goals</span></a>
+        <a class="nav-orange {{ 'active' if page_name == 'challenges' else '' }}" href="{{ url_for('simple_page', page_name='challenges') }}">♜ <span>Challenges</span></a>
+        <a class="nav-teal {{ 'active' if page_name == 'notes' else '' }}" href="{{ url_for('simple_page', page_name='notes') }}">☷ <span>Notes</span></a>
+        <a class="nav-silver {{ 'active' if page_name == 'supplements' else '' }}" href="{{ url_for('simple_page', page_name='supplements') }}">◈ <span>Supplements</span></a>
+        <a class="nav-red {{ 'active' if page_name == 'settings' else '' }}" href="{{ url_for('simple_page', page_name='settings') }}">⚙ <span>Settings</span></a>
       </nav>
 
       <div class="profile-card">

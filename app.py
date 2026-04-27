@@ -29,7 +29,8 @@ CATEGORY_IMAGES = {
     "body": "anime_15.webp",
     "recovery": "anime_17.webp",
     "supplements": "anime_14.webp",
-    "score": "anime_09.webp",
+    "score": "elevator_04.jpeg",
+    "background_grid": "elevator_04.jpeg",
 }
 
 QUOTES = [
@@ -154,7 +155,10 @@ def dashboard():
     goals = get_user_goals(user_id)
     log = get_today_log(user_id)
 
-    start = date.today() - timedelta(days=6)
+    days = int(request.args.get("days", 7))
+    if days not in [1, 7, 14, 30, 90, 180, 365, 9999]:
+        days = 7
+    start = date.today() - timedelta(days=days-1)
     logs = DailyLog.query.filter(
         DailyLog.user_id == user_id,
         DailyLog.log_date >= start
@@ -162,7 +166,7 @@ def dashboard():
 
     by_date = {l.log_date: l for l in logs}
     labels, workout_data, calorie_data, sleep_data = [], [], [], []
-    for i in range(7):
+    for i in range(days):
         d = start + timedelta(days=i)
         l = by_date.get(d)
         labels.append(d.strftime("%a"))
@@ -196,6 +200,7 @@ def dashboard():
 
     chart_payload = {
         "labels": labels,
+        "days": days,
         "workouts": workout_data,
         "calories": calorie_data,
         "sleep": sleep_data,
@@ -211,6 +216,8 @@ def dashboard():
         chart_payload=chart_payload,
         images=CATEGORY_IMAGES,
         quote=QUOTES[date.today().toordinal() % len(QUOTES)],
+        quotes=QUOTES,
+        active_days=days,
     )
 
 @app.route("/log", methods=["POST"])
@@ -290,7 +297,10 @@ def simple_page(page_name):
 @login_required
 def weekly_api():
     user_id = session["user_id"]
-    start = date.today() - timedelta(days=6)
+    days = int(request.args.get("days", 7))
+    if days not in [1, 7, 14, 30, 90, 180, 365, 9999]:
+        days = 7
+    start = date.today() - timedelta(days=days-1)
     logs = DailyLog.query.filter(DailyLog.user_id == user_id, DailyLog.log_date >= start).order_by(DailyLog.log_date.asc()).all()
     return jsonify([
         {
