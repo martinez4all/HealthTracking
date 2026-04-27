@@ -3,31 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ 'Register' if mode == 'register' else 'Login' }} | Warrior Health</title>
+  <title>
+    {% if mode == 'register' %}Register{% elif mode == 'forgot' %}Reset Password{% else %}Login{% endif %} | Warrior Health
+  </title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body class="auth-body">
-  <main class="auth-card">
-    <div class="leaf-mark big">◉</div>
-    <h1>{{ 'Create Account' if mode == 'register' else 'Welcome Back' }}</h1>
-    <p>Discipline today. Freedom tomorrow.</p>
+  <main class="auth-card auth-card-strong">
+    <h1>
+      {% if mode == 'register' %}
+        Create Account
+      {% elif mode == 'forgot' %}
+        Reset Password
+      {% else %}
+        Welcome Back
+      {% endif %}
+    </h1>
+
+    <p class="auth-quote">The cold water does not get warmer if you jump late.</p>
+
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="flash">{{ messages[0] }}</div>
       {% endif %}
     {% endwith %}
-    <form method="POST" action="{{ url_for('register') if mode == 'register' else url_for('login') }}">
-      <label>Username <input name="username" autocomplete="username" required /></label>
-      {% if mode == 'register' %}
-      <label>Email <input name="email" type="email" autocomplete="email" /></label>
-      {% endif %}
-      <label>Password <input name="password" type="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" required /></label>
-      <button class="primary">{{ 'Create Account' if mode == 'register' else 'Login' }}</button>
-    </form>
-    {% if mode == 'register' %}
-      <a href="{{ url_for('login_page') }}">Already have an account?</a>
+
+    {% if mode == 'forgot' %}
+      <form method="POST" action="{{ url_for('forgot_password') }}">
+        <label>Username
+          <input name="username" autocomplete="username" required />
+        </label>
+
+        <label>Reset Code
+          <input name="reset_code" placeholder="Enter your reset code" required />
+        </label>
+
+        <label>New Password
+          <input name="new_password" type="password" autocomplete="new-password" required />
+        </label>
+
+        <button class="primary">Reset Password</button>
+      </form>
+
+      <a href="{{ url_for('login_page') }}">Back to login</a>
+
     {% else %}
-      <a href="{{ url_for('register_page') }}">Create an account for you, your brother, or a friend.</a>
+      <form method="POST" action="{{ url_for('register') if mode == 'register' else url_for('login') }}">
+        <label>Username
+          <input name="username" autocomplete="username" required />
+        </label>
+
+        {% if mode == 'register' %}
+          <label>Email
+            <input name="email" type="email" autocomplete="email" />
+          </label>
+        {% endif %}
+
+        <label>Password
+          <input name="password" type="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" required />
+        </label>
+
+        <button class="primary">{{ 'Create Account' if mode == 'register' else 'Login' }}</button>
+      </form>
+
+      {% if mode == 'register' %}
+        <a href="{{ url_for('login_page') }}">Already have an account?</a>
+      {% else %}
+        <a href="{{ url_for('forgot_password_page') }}">Forgot password?</a>
+        <a href="{{ url_for('register_page') }}">Create a new account</a>
+      {% endif %}
     {% endif %}
   </main>
 </body>

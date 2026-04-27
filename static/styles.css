@@ -723,3 +723,27 @@ body{
 .category-modal.modal-teal{--modal-accent:var(--teal)}
 .category-modal.modal-silver{--modal-accent:var(--silver)}
 .category-modal.modal-gold{--modal-accent:var(--gold)}
+
+
+/* V11 Auth / Password Reset */
+.auth-card-strong{
+  border:2px solid rgba(255,59,48,.45) !important;
+  box-shadow:
+    0 0 35px rgba(255,59,48,.20),
+    0 30px 100px rgba(0,0,0,.65) !important;
+}
+.auth-quote{
+  color:#fff !important;
+  font-weight:900;
+  font-size:18px;
+  line-height:1.35;
+  text-shadow:0 0 18px rgba(255,59,48,.42);
+}
+.auth-card a{
+  color:#ff6b62 !important;
+  font-weight:800;
+  text-decoration:none;
+}
+.auth-card a:hover{
+  text-decoration:underline;
+}

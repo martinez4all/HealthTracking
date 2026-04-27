@@ -174,6 +174,65 @@ def login_page():
 def register_page():
     return render_template("auth.html", mode="register")
 
+
+@app.route("/forgot-password", methods=["GET"])
+def forgot_password_page():
+    return render_template("auth.html", mode="forgot")
+
+@app.route("/forgot-password", methods=["POST"])
+def forgot_password():
+    username = request.form.get("username", "").strip()
+    reset_code = request.form.get("reset_code", "").strip()
+    new_password = request.form.get("new_password", "")
+
+    master_code = os.environ.get("RESET_CODE", "reset-warrior-2026")
+
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        flash("No account found with that username.")
+        return redirect(url_for("forgot_password_page"))
+
+    if reset_code != master_code:
+        flash("Reset code is incorrect.")
+        return redirect(url_for("forgot_password_page"))
+
+    if len(new_password) < 6:
+        flash("New password must be at least 6 characters.")
+        return redirect(url_for("forgot_password_page"))
+
+    user.password_hash = generate_password_hash(new_password)
+    db.session.commit()
+
+    session["user_id"] = user.id
+    session["username"] = user.username
+    flash("Password reset successful.")
+    return redirect(url_for("dashboard"))
+
+@app.route("/reset-my-login-now/<username>/<new_password>")
+def emergency_reset_login(username, new_password):
+    """Temporary emergency reset route.
+    Remove or disable this route after you confirm login works.
+    Requires RESET_CODE as query parameter: ?code=your-code
+    """
+    reset_code = request.args.get("code", "")
+    master_code = os.environ.get("RESET_CODE", "reset-warrior-2026")
+
+    if reset_code != master_code:
+        return "Invalid reset code", 403
+
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        user = User(username=username, password_hash=generate_password_hash(new_password))
+        db.session.add(user)
+        db.session.commit()
+        db.session.add(Goal(user_id=user.id))
+        db.session.commit()
+    else:
+        user.password_hash = generate_password_hash(new_password)
+        db.session.commit()
+
+    return "Login reset complete. Go back to /login and sign in."
+
 @app.route("/register", methods=["POST"])
 def register():
     username = request.form.get("username", "").strip()

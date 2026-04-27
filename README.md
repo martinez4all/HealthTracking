@@ -63,3 +63,18 @@ This version fixes:
 - Popup keeps category color scheme.
 - Added strong color glow and highlighted title container.
 - Brightened enlarged category image display.
+
+
+## V11 Auth Reset
+Added:
+- Forgot Password page
+- Reset code based password reset
+- Emergency reset route
+
+Set this on Render:
+RESET_CODE=your-private-reset-code
+
+Emergency reset example:
+https://YOUR-SITE.onrender.com/reset-my-login-now/YOURUSERNAME/NEWPASSWORD?code=YOURRESETCODE
+
+After login works, remove or ignore the emergency route.
