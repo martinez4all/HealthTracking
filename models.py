@@ -43,3 +43,32 @@ class DailyLog(db.Model):
     notes = db.Column(db.Text, default="")
 
     __table_args__ = (db.UniqueConstraint("user_id", "log_date", name="one_log_per_user_per_day"),)
+
+class MealLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, index=True)
+    log_date = db.Column(db.Date, default=date.today, index=True)
+    meal_type = db.Column(db.String(50), default="meal")
+    description = db.Column(db.Text, nullable=False)
+    calories = db.Column(db.Float, default=0)
+    protein_g = db.Column(db.Float, default=0)
+    carbs_g = db.Column(db.Float, default=0)
+    fat_g = db.Column(db.Float, default=0)
+    sugar_g = db.Column(db.Float, default=0)
+    sodium_mg = db.Column(db.Float, default=0)
+    fiber_g = db.Column(db.Float, default=0)
+    quality_color = db.Column(db.String(20), default="yellow")
+    quality_score = db.Column(db.Integer, default=50)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class BodyProfile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, unique=True, index=True)
+    height_in = db.Column(db.Float, default=70)
+    age = db.Column(db.Integer, default=30)
+    sex = db.Column(db.String(20), default="male")
+    waist_in = db.Column(db.Float, nullable=True)
+    neck_in = db.Column(db.Float, nullable=True)
+    hip_in = db.Column(db.Float, nullable=True)
+    body_fat_percent = db.Column(db.Float, nullable=True)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)

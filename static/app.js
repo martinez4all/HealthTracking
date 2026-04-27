@@ -157,3 +157,10 @@ if(quoteRotator && quoteText){
     grid.appendChild(cell);
   });
 })();
+
+// V9 meal/body intelligence
+const mealModal = document.getElementById("mealModal"); const bodyModal = document.getElementById("bodyModal");
+document.querySelectorAll("[data-open-meal]").forEach(btn=>btn.addEventListener("click",()=>mealModal.showModal()));
+document.querySelectorAll("[data-open-body]").forEach(btn=>btn.addEventListener("click",()=>bodyModal.showModal()));
+document.querySelectorAll("[data-open-category]").forEach(btn=>{btn.addEventListener("click",(e)=>{if(btn.dataset.title==="Meal Tracking"){e.stopImmediatePropagation();e.preventDefault();mealModal.showModal();} if(btn.dataset.title==="Body Metrics"){e.stopImmediatePropagation();e.preventDefault();bodyModal.showModal();}}, true);});
+window.addEventListener("DOMContentLoaded",()=>{const canvas=document.getElementById("nutritionChart"); if(!canvas||!window.Chart)return; const payload=JSON.parse(canvas.dataset.chart); new Chart(canvas,{type:"bar",data:{labels:payload.labels,datasets:[{label:"Sugar g",data:payload.sugar||[],backgroundColor:"#ff3b30"},{label:"Protein g",data:payload.protein||[],backgroundColor:"#6cff2d"},{label:"Sodium mg / 100",data:(payload.sodium||[]).map(v=>Math.round(v/100)),backgroundColor:"#ffd21f"}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:"#d8dce6"}}},scales:{x:{ticks:{color:"#a7adba"},grid:{color:"rgba(255,255,255,.05)"}},y:{ticks:{color:"#a7adba"},grid:{color:"rgba(255,255,255,.05)"}}}}});});

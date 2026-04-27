@@ -51,6 +51,7 @@
       <section class="cards-grid">
         {% set cards = [
           ('food','Food Intake','Fuel your body.','food','green'),
+          ('meal','Meal Tracking','Exact meals, macros, and quality.','meal','green'),
           ('water','Water Intake','Stay hydrated.','water_oz','blue'),
           ('workouts','Workouts','Build your strength.','workouts','red'),
           ('power','Power Drills','Explode with power.','power_drills','orange'),
@@ -105,6 +106,8 @@
         </article>
       </section>
 
+
+      <section class="intelligence-grid"><article class="panel nutrition-brain {{ meal_day_color }}"><h3>MEAL INTELLIGENCE</h3><div class="quality-pill {{ meal_day_color }}">{{ meal_day_color|upper }} · {{ meal_day_score }}/100</div><div class="macro-grid"><div><b>{{ meal_totals.calories }}</b><span>Calories</span></div><div><b>{{ meal_totals.protein_g }}g</b><span>Protein</span></div><div><b>{{ meal_totals.carbs_g }}g</b><span>Carbs</span></div><div><b>{{ meal_totals.fat_g }}g</b><span>Fat</span></div><div><b>{{ meal_totals.sugar_g }}g</b><span>Sugar</span></div><div><b>{{ meal_totals.sodium_mg }}mg</b><span>Sodium</span></div><div><b>{{ meal_totals.fiber_g }}g</b><span>Fiber</span></div></div><button class="danger-line green-line" data-open-meal>Add Exact Meal →</button><ul class="meal-list">{% for meal in today_meals[:4] %}<li class="{{ meal.quality_color }}"><strong>{{ meal.meal_type }}</strong> {{ meal.description }} <span>{{ meal.quality_score }}/100</span></li>{% else %}<li class="yellow"><strong>No meals yet.</strong> Add your first exact meal.</li>{% endfor %}</ul></article><article class="panel body-brain {{ body_summary.bmi_status }}"><h3>BMI / BODY FAT</h3><div class="body-stats"><div class="{{ body_summary.bmi_status }}"><b>{{ body_summary.bmi }}</b><span>BMI</span></div><div class="{{ body_summary.body_fat_status }}"><b>{{ body_summary.body_fat or 'Add data' }}</b><span>Body Fat %</span></div></div><p class="brain-note">BMI is a general signal. Body fat, waist, blood pressure, sleep, and performance give the real story.</p><button class="danger-line" data-open-body>Update Body Profile →</button></article><article class="panel coach-brain"><h3>WEAKNESS DETECTION</h3><ul>{% if meal_totals.sugar_g > 50 %}<li class="red">Sugar is high today. Tighten drinks/snacks.</li>{% endif %}{% if meal_totals.sodium_mg > 2500 %}<li class="yellow">Sodium is elevated. Watch blood pressure response.</li>{% endif %}{% if log.sleep_hours and log.sleep_hours < 6 %}<li class="yellow">Sleep is low. Recovery may suffer.</li>{% endif %}{% if log.water_oz < goals.water_oz * 0.6 %}<li class="yellow">Hydration is behind pace.</li>{% endif %}{% if meal_totals.protein_g < goals.protein_g * 0.5 %}<li class="red">Protein is low for transformation.</li>{% endif %}<li class="green">The more precise you track, the better the system can expose patterns.</li></ul></article></section>
       <section class="bottom-grid">
         <section class="panel overview">
           <h3>TODAY'S OVERVIEW</h3>
@@ -128,7 +131,7 @@
 
         <section class="panel chart-panel">
           <h3>WEEKLY PROGRESS</h3>
-          <div class="chart-scroll"><div class="chart-inner"><canvas id="weeklyChart" data-chart='{{ chart_payload|tojson }}'></canvas></div></div>
+          <div class="chart-scroll"><div class="chart-inner"><canvas id="weeklyChart" data-chart='{{ chart_payload|tojson }}'></canvas><canvas id="nutritionChart" data-chart='{{ chart_payload|tojson }}'></canvas></div></div>
           <div class="stats">
             <div><b>{{ chart_payload.workouts|sum }}</b><span>Workouts<br>This Week</span></div>
             <div><b>{{ (chart_payload.calories|sum / chart_payload.days)|round|int }}</b><span>Calories Avg.<br>Per Day</span></div>
@@ -152,6 +155,9 @@
   </div>
 
   
+
+  <dialog id="mealModal" class="modal"><form method="POST" action="{{ url_for('add_meal') }}" class="modal-card meal-modal-card"><button type="button" class="x" data-close>×</button><h2>Meal Tracking</h2><p>Enter exact meals like: 2 cups rice, 1 cup broccoli, 2 cups grilled chicken, drink 20g sugar.</p><label>Meal Type<select name="meal_type"><option>breakfast</option><option>lunch</option><option>dinner</option><option>snack</option><option>drink</option></select></label><label>Meal Description<textarea name="meal_description" placeholder="2 cups rice, 1 cup broccoli, 2 cups grilled chicken, drink 20g sugar" required></textarea></label><details><summary>Optional manual macro override</summary><div class="goal-grid"><label>Calories <input name="manual_calories" type="number" step="0.1"></label><label>Protein g <input name="manual_protein_g" type="number" step="0.1"></label><label>Carbs g <input name="manual_carbs_g" type="number" step="0.1"></label><label>Fat g <input name="manual_fat_g" type="number" step="0.1"></label><label>Sugar g <input name="manual_sugar_g" type="number" step="0.1"></label><label>Sodium mg <input name="manual_sodium_mg" type="number" step="0.1"></label><label>Fiber g <input name="manual_fiber_g" type="number" step="0.1"></label></div></details><button class="primary">Analyze & Save Meal</button></form></dialog>
+  <dialog id="bodyModal" class="modal"><form method="POST" action="{{ url_for('update_body_profile') }}" class="modal-card meal-modal-card"><button type="button" class="x" data-close>×</button><h2>BMI / Body Fat Profile</h2><div class="goal-grid"><label>Height inches <input name="height_in" type="number" step="0.1" value="{{ body_profile.height_in }}"></label><label>Weight lbs <input name="body_weight" type="number" step="0.1" value="{{ log.body_weight or goals.body_weight_goal }}"></label><label>Age <input name="age" type="number" value="{{ body_profile.age }}"></label><label>Sex <select name="sex"><option value="male" {{ 'selected' if body_profile.sex == 'male' else '' }}>male</option><option value="female" {{ 'selected' if body_profile.sex == 'female' else '' }}>female</option></select></label><label>Waist inches <input name="waist_in" type="number" step="0.1" value="{{ body_profile.waist_in or '' }}"></label><label>Neck inches <input name="neck_in" type="number" step="0.1" value="{{ body_profile.neck_in or '' }}"></label><label>Hip inches <input name="hip_in" type="number" step="0.1" value="{{ body_profile.hip_in or '' }}"></label><label>Known Body Fat % <input name="body_fat_percent" type="number" step="0.1" value="{{ body_profile.body_fat_percent or '' }}"></label></div><button class="primary">Save Body Profile</button></form></dialog>
   <dialog id="categoryModal" class="modal category-modal">
     <div class="category-modal-card">
       <button type="button" class="x" data-close>×</button>
