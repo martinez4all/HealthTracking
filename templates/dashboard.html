@@ -20,14 +20,14 @@
 
       <nav class="nav">
         <a class="active" href="#">⌂ <span>Dashboard</span></a>
-        <a href="#">▣ <span>Calendar</span></a>
-        <a href="#">▥ <span>Analytics</span></a>
-        <a href="#">↗ <span>Progress</span></a>
-        <a href="#">◎ <span>Goals</span></a>
-        <a href="#">♜ <span>Challenges</span></a>
-        <a href="#">☷ <span>Notes</span></a>
-        <a href="#">◈ <span>Supplements</span></a>
-        <a href="#">⚙ <span>Settings</span></a>
+        <a href="{{ url_for('simple_page', page_name='calendar') }}">▣ <span>Calendar</span></a>
+        <a href="{{ url_for('simple_page', page_name='analytics') }}">▥ <span>Analytics</span></a>
+        <a href="{{ url_for('simple_page', page_name='progress') }}">↗ <span>Progress</span></a>
+        <a href="{{ url_for('simple_page', page_name='goals') }}">◎ <span>Goals</span></a>
+        <a href="{{ url_for('simple_page', page_name='challenges') }}">♜ <span>Challenges</span></a>
+        <a href="{{ url_for('simple_page', page_name='notes') }}">☷ <span>Notes</span></a>
+        <a href="{{ url_for('simple_page', page_name='supplements') }}">◈ <span>Supplements</span></a>
+        <a href="{{ url_for('simple_page', page_name='settings') }}">⚙ <span>Settings</span></a>
       </nav>
 
       <div class="profile-card">
@@ -113,7 +113,7 @@
 
         <section class="panel chart-panel">
           <h3>WEEKLY PROGRESS</h3>
-          <canvas id="weeklyChart" data-chart='{{ chart_payload|tojson }}'></canvas>
+          <div class="chart-scroll"><div class="chart-inner"><canvas id="weeklyChart" data-chart='{{ chart_payload|tojson }}'></canvas></div></div>
           <div class="stats">
             <div><b>{{ chart_payload.workouts|sum }}</b><span>Workouts<br>This Week</span></div>
             <div><b>{{ (chart_payload.calories|sum / 7)|round|int }}</b><span>Calories Avg.<br>Per Day</span></div>

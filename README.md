@@ -28,3 +28,10 @@ Push to GitHub, connect the repo in Render, and use:
 - Start command: `gunicorn app:app`
 
 For production, add a PostgreSQL database in Render and set DATABASE_URL automatically.
+
+
+## Fix Update
+This version fixes:
+- Weekly Progress horizontal scroll issue
+- Sidebar links now go to real connected pages
+- Goals, Notes, and Supplements pages have working forms

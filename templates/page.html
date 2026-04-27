@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }} | Warrior Health</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="leaf-mark">◉</div>
+        <div class="brand-title">DISCIPLINE</div>
+        <div class="brand-sub">BUILDS DESTINY</div>
+      </div>
+
+      <nav class="nav">
+        <a href="{{ url_for('dashboard') }}">⌂ <span>Dashboard</span></a>
+        <a class="{{ 'active' if page_name == 'calendar' else '' }}" href="{{ url_for('simple_page', page_name='calendar') }}">▣ <span>Calendar</span></a>
+        <a class="{{ 'active' if page_name == 'analytics' else '' }}" href="{{ url_for('simple_page', page_name='analytics') }}">▥ <span>Analytics</span></a>
+        <a class="{{ 'active' if page_name == 'progress' else '' }}" href="{{ url_for('simple_page', page_name='progress') }}">↗ <span>Progress</span></a>
+        <a class="{{ 'active' if page_name == 'goals' else '' }}" href="{{ url_for('simple_page', page_name='goals') }}">◎ <span>Goals</span></a>
+        <a class="{{ 'active' if page_name == 'challenges' else '' }}" href="{{ url_for('simple_page', page_name='challenges') }}">♜ <span>Challenges</span></a>
+        <a class="{{ 'active' if page_name == 'notes' else '' }}" href="{{ url_for('simple_page', page_name='notes') }}">☷ <span>Notes</span></a>
+        <a class="{{ 'active' if page_name == 'supplements' else '' }}" href="{{ url_for('simple_page', page_name='supplements') }}">◈ <span>Supplements</span></a>
+        <a class="{{ 'active' if page_name == 'settings' else '' }}" href="{{ url_for('simple_page', page_name='settings') }}">⚙ <span>Settings</span></a>
+      </nav>
+
+      <div class="profile-card">
+        <div class="avatar" style="background-image:url('{{ url_for('static', filename='assets/' + images.sleep) }}')"></div>
+        <div>
+          <strong>{{ user.username|upper }}</strong>
+          <small>Keep pushing.</small>
+        </div>
+        <a href="{{ url_for('logout') }}" title="Logout">⌄</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero small-hero" style="background-image:linear-gradient(90deg, rgba(8,10,14,.96), rgba(8,10,14,.55), rgba(8,10,14,.9)), url('{{ url_for('static', filename='assets/' + images.hero) }}')">
+        <div>
+          <p>{{ title|upper }}</p>
+          <h1>{{ title }}.</h1>
+          <span class="fire">🔥 This page is now connected.</span>
+        </div>
+      </section>
+
+      {% if page_name == 'goals' %}
+      <section class="panel full-page-panel">
+        <h3>ADJUST YOUR GOALS</h3>
+        <form method="POST" action="{{ url_for('update_goals') }}" class="goals-form page-goals">
+          <div class="goal-grid">
+            <label>Water oz <input name="water_oz" type="number" value="{{ goals.water_oz }}"></label>
+            <label>Calories <input name="calories" type="number" value="{{ goals.calories }}"></label>
+            <label>Protein g <input name="protein_g" type="number" value="{{ goals.protein_g }}"></label>
+            <label>Workouts <input name="workouts" type="number" value="{{ goals.workouts }}"></label>
+            <label>Power Drills <input name="power_drills" type="number" value="{{ goals.power_drills }}"></label>
+            <label>SAQ Minutes <input name="saq_minutes" type="number" value="{{ goals.saq_minutes }}"></label>
+            <label>Sleep Hours <input name="sleep_hours" type="number" step="0.1" value="{{ goals.sleep_hours }}"></label>
+            <label>Recovery Minutes <input name="recovery_minutes" type="number" value="{{ goals.recovery_minutes }}"></label>
+            <label>Supplements <input name="supplements" type="number" value="{{ goals.supplements }}"></label>
+            <label>Body Weight Goal <input name="body_weight_goal" type="number" step="0.1" value="{{ goals.body_weight_goal }}"></label>
+          </div>
+          <button class="primary">Save Goals</button>
+        </form>
+      </section>
+      {% elif page_name == 'notes' %}
+      <section class="panel full-page-panel">
+        <h3>DAILY NOTES</h3>
+        <form method="POST" action="{{ url_for('log_data') }}" class="goals-form page-goals">
+          <label>Reflection / notes
+            <textarea name="notes" placeholder="Write what happened today...">{{ log.notes }}</textarea>
+          </label>
+          <button class="primary">Save Note</button>
+        </form>
+      </section>
+      {% elif page_name == 'supplements' %}
+      <section class="panel full-page-panel">
+        <h3>SUPPLEMENTS / MEDICATION</h3>
+        <form method="POST" action="{{ url_for('log_data') }}" class="goals-form page-goals">
+          <label>Completed count <input name="supplements" type="number" value="1"></label>
+          <label>Notes <textarea name="notes" placeholder="Medication, supplement, side effects, asthma/BP notes..."></textarea></label>
+          <button class="primary">Save</button>
+        </form>
+      </section>
+      {% else %}
+      <section class="panel full-page-panel page-placeholder">
+        <h3>{{ title|upper }}</h3>
+        <p>This section is linked now. Next build step is making this page fully advanced instead of placeholder.</p>
+        <div class="placeholder-grid">
+          <div><b>Today</b><span>Connected to your account</span></div>
+          <div><b>Goals</b><span>Adjust goals anytime</span></div>
+          <div><b>Progress</b><span>Graphs coming here</span></div>
+        </div>
+      </section>
+      {% endif %}
+    </main>
+  </div>
+</body>
+</html>

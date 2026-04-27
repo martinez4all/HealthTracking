@@ -241,6 +241,40 @@ def update_goals():
     db.session.commit()
     return redirect(url_for("dashboard"))
 
+
+@app.route("/page/<page_name>")
+@login_required
+def simple_page(page_name):
+    allowed = {
+        "calendar": "Calendar",
+        "analytics": "Analytics",
+        "progress": "Progress",
+        "goals": "Goals",
+        "challenges": "Challenges",
+        "notes": "Notes",
+        "supplements": "Supplements",
+        "settings": "Settings",
+    }
+    title = allowed.get(page_name)
+    if not title:
+        return redirect(url_for("dashboard"))
+
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+    goals = get_user_goals(user_id)
+    log = get_today_log(user_id)
+
+    return render_template(
+        "page.html",
+        user=user,
+        title=title,
+        page_name=page_name,
+        goals=goals,
+        log=log,
+        images=CATEGORY_IMAGES,
+    )
+
+
 @app.route("/api/weekly")
 @login_required
 def weekly_api():
